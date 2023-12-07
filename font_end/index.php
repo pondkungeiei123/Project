@@ -3,7 +3,7 @@
 ob_start();
 ?>
 <!-- Your page-specific content -->
-<h2> รายชื่อช่างตัดผม</h2> <!-- Add a title here -->
+<h2> รายชื่อพนักงาน</h2> <!-- Add a title here -->
 <div class="container">
     <div class="row">
         <div class="col-md-12"> <br>
@@ -33,8 +33,8 @@ ob_start();
                             <td><?= $k['user_id']; ?></td>
                             <td><?= $k['user_name']; ?></td>
                             <td><?= $k['user_lastname']; ?></td>
-                            <td><a href="hs_formEdit.php?id=<?= $k['user_id']; ?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
-                            <td><button type="button" onclick="confirmDeletion('<?= $k['user_id'] ?>')" class="btn btn-danger btn-sm">ลบ</ิ>
+                            <td><a href="formEdit.php?id=<?= $k['user_id']; ?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
+                            <td><a href="delete.php?id=<?= $k['user_id']; ?>" class="btn btn-danger btn-sm">ลบ</a></td>
                         </tr>
                     <?php
                     }
@@ -71,7 +71,7 @@ ob_start();
                         </div>
                         <div class="form-group">
                             <label for="hs_password">Password:</label>
-                            <input type="password" class="form-control" name="user_password" required>
+                            <input type="password" class="form-control" name="hs_password" required>
                         </div>
                         <div class="form-group">
                             <label for="user_gender">Gender:</label>
@@ -103,88 +103,6 @@ ob_start();
             </div>
         </div>
     </div>
-    <script>
-    function confirmDeletion(id) {
-        // Use SweetAlert2 to create a confirmation dialog
-        Swal.fire({
-            title: 'Are you sure?',
-            text: 'You won\'t be able to revert this!',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'Cancel',
-        }).then((result) => {
-            // If the user clicks "Yes, delete it!"
-            if (result.isConfirmed) {
-                $.ajax({
-                    method: 'POST',
-                    url: "http://localhost/test/black_end/hs/deleteProcess.php",
-                    // Ensure proper validation on the server for hs_id
-                    data: {
-                        user_id: id
-                    },
-                    dataType: "json",
-                    success: function(result) {
-                        // Display a success message to the user
-                        Swal.fire('Deleted!', 'Your data has been deleted.', 'success').then((result) => {
-                            if (result.isConfirmed) {
-                                location.reload();
-                            }
-                        });
-                    },
-                    error: function(xhr, status, error) {
-                        // Display a user-friendly error message
-                        Swal.fire('Error', 'An error occurred while deleting data.', 'error');
-                        console.error("Ajax request failed:", status, error);
-                        console.log(xhr.responseText); // Log the entire response for debugging
-                    }
-                });
-
-            } else {
-                // If the user clicks "Cancel" or closes the dialog
-                Swal.fire('Cancelled', 'Your data is safe :)', 'info');
-            }
-        });
-    }
-
-    function submitForm() {
-        var formData = new FormData($('#addUserForm')[0]);
-
-        $.ajax({
-            method: 'POST',
-            url: "http://localhost/test/black_end/hs/insertProcess.php",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(result) {
-                console.log(result);
-                if (result.success === true) {
-                    Swal.fire({
-                        title: "Success",
-                        text: "User added successfully",
-                        icon: "success"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        }
-                    });
-
-                    // $('#addUserModal').modal('hide');
-                } else {
-                    Swal.fire({
-                        title: "Error",
-                        text: "Error: " + result.message,
-                        icon: "error"
-                    });
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error("Ajax request failed:", status, error);
-                console.log(xhr.responseText); // บันทึกการตอบสนองทั้งหมด
-            }
-        });
-    }
-</script>
 <!-- ... -->
 <?php
 $content = ob_get_clean();

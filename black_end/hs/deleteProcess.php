@@ -1,24 +1,25 @@
 <?php
-require_once 'config.php';
+require_once '../config.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['user_id'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_POST['user_id'];
-
+    
     // ลบข้อมูลผู้ใช้
-    $stmt = $conn->prepare("DELETE FROM users WHERE user_id = ?");
+    $stmt = $conn->prepare("DELETE FROM users WHERE user_id  = ?");
     $stmt->bind_param("i", $userId);
 
     if ($stmt->execute()) {
-        // ทำการ redirect ไปที่ index.php หลังจากลบข้อมูลสำเร็จ
-        header("Location: list_hs.php");
-        exit();
+        $response = array("success" => true);
+
     } else {
         echo "<p>Failed to delete user</p>";
     }
 
     $stmt->close();
-    $conn->close();
 } else {
     echo "<p>Invalid request</p>";
 }
+$conn->close();
+header('Content-Type: application/json');
+echo json_encode($response);
 ?>

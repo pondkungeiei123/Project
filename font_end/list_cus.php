@@ -22,7 +22,7 @@ ob_start();
                     <!-- ตรงนี้คือข้อมูลที่ถูกดึงมาแสดงในตาราง -->
                     <?php
                     require_once '../config.php';
-                    $stmt = $conn->prepare("SELECT * FROM users");
+                    $stmt = $conn->prepare("SELECT * FROM customer");
                     $stmt->execute();
                     $resultSet = $stmt->get_result();
                     $data = $resultSet->fetch_all(MYSQLI_ASSOC);
@@ -30,11 +30,12 @@ ob_start();
                     foreach ($data as $k) {
                     ?>
                         <tr>
-                            <td><?= $k['user_id']; ?></td>
-                            <td><?= $k['user_name']; ?></td>
-                            <td><?= $k['user_lastname']; ?></td>
-                            <td><a href="formEdit.php?id=<?= $k['user_id']; ?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
-                            <td><a href="delete.php?id=<?= $k['user_id']; ?>" class="btn btn-danger btn-sm">ลบ</a></td>
+                            <td><?= $k['cus_id']; ?></td>
+                            <td><?= $k['cus_name']; ?></td>
+                            <td><?= $k['cus_lastname']; ?></td>
+                            <td><a href="cus_formEdit.php?id=<?= $k['cus_id']; ?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
+                            <td><button type="button" onclick="confirmDeletion('<?= $k['cus_id'] ?>')" class="btn btn-danger btn-sm">ลบ</ิ>
+                            </td>
                         </tr>
                     <?php
                     }
@@ -47,62 +48,140 @@ ob_start();
     </div>
 </div>
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog" aria-labelledby="addUserModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addUserForm" method="POST">
-                        <div class="form-group">
-                            <label for="user_name">Name:</label>
-                            <input type="text" class="form-control" name="user_name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_lastname">Lastname:</label>
-                            <input type="text" class="form-control" name="user_lastname" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_email">Email:</label>
-                            <input type="email" class="form-control" name="user_email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="hs_password">Password:</label>
-                            <input type="password" class="form-control" name="hs_password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_gender">Gender:</label>
-                            <select class="form-control" name="user_gender" required>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_address">Address:</label>
-                            <textarea class="form-control" name="user_address" rows="3" required></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_tel">Telephone:</label>
-                            <input type="tel" class="form-control" name="user_tel" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="user_age">Age:</label>
-                            <input type="number" class="form-control" name="user_age" required>
-                        </div>
-                        <!-- เพิ่มฟิลด์ใหม่ตามที่ต้องการ -->
-                        <div class="form-group">
-                            <label for="user_Certificate">Certificate:</label>
-                            <input type="file" class="form-control" name="user_Certificate" accept="image/*">
-                        </div>
-                        <button type="button" class="btn btn-primary" onclick="submitForm()">Add User</button>
-                    </form>
-                </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addUserModalLabel">Add User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addUserForm" method="POST">
+                    <div class="form-group">
+                        <label for="cus_name">Name:</label>
+                        <input type="text" class="form-control" name="cus_name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_lastname">Lastname:</label>
+                        <input type="text" class="form-control" name="cus_lastname" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_email">Email:</label>
+                        <input type="email" class="form-control" name="cus_email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hs_password">Password:</label>
+                        <input type="password" class="form-control" name="cus_password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_gender">Gender:</label>
+                        <select class="form-control" name="cus_gender" required>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_address">Address:</label>
+                        <textarea class="form-control" name="cus_address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_tel">Telephone:</label>
+                        <input type="tel" class="form-control" name="cus_tel" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="cus_age">Age:</label>
+                        <input type="number" class="form-control" name="cus_age" required>
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Add User</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
+<script>
+    function confirmDeletion(id) {
+        // Use SweetAlert2 to create a confirmation dialog
+        Swal.fire({
+            title: 'Are you sure?',
+            text: 'You won\'t be able to revert this!',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'Cancel',
+        }).then((result) => {
+            // If the user clicks "Yes, delete it!"
+            if (result.isConfirmed) {
+                $.ajax({
+                    method: 'POST',
+                    url: "http://localhost/test/black_end/cus/deleteProcess.php",
+                    // Ensure proper validation on the server for cus_id
+                    data: {
+                        cus_id: id
+                    },
+                    dataType: "json",
+                    success: function(result) {
+                        // Display a success message to the user
+                        Swal.fire('Deleted!', 'Your data has been deleted.', 'success').then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        // Display a user-friendly error message
+                        Swal.fire('Error', 'An error occurred while deleting data.', 'error');
+                        console.error("Ajax request failed:", status, error);
+                        console.log(xhr.responseText); // Log the entire response for debugging
+                    }
+                });
+
+            } else {
+                // If the user clicks "Cancel" or closes the dialog
+                Swal.fire('Cancelled', 'Your data is safe :)', 'info');
+            }
+        });
+    }
+
+    function submitForm() {
+        var formData = new FormData($('#addUserForm')[0]);
+
+        $.ajax({
+            method: 'POST',
+            url: "http://localhost/test/black_end/cus/insertProcess.php",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(result) {
+                console.log(result);
+                if (result.success === true) {
+                    Swal.fire({
+                        title: "Success",
+                        text: "User added successfully",
+                        icon: "success"
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            location.reload();
+                        }
+                    });
+
+                    // $('#addUserModal').modal('hide');
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Error: " + result.message,
+                        icon: "error"
+                    });
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error("Ajax request failed:", status, error);
+                console.log(xhr.responseText); // บันทึกการตอบสนองทั้งหมด
+            }
+        });
+    }
+</script>
 <!-- ... -->
 <?php
 $content = ob_get_clean();

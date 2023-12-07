@@ -18,7 +18,7 @@
         if (isset($_GET['id'])) {
             $userId = $_GET['id'];
 
-            require_once 'config.php';
+            require_once '../config.php';
 
             // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
             $stmt = $conn->prepare("SELECT * FROM users WHERE user_id = ?");
@@ -30,7 +30,7 @@
             if ($result->num_rows > 0) {
                 $userData = $result->fetch_assoc();
         ?>
-                <form action="updateUser.php" method="POST">
+                <form action="../black_end/hs/updateProcess.php" method="POST">
                     <input type="hidden" name="user_id" value="<?= $userData['user_id']; ?>">
                     <div class="form-group">
                         <label for="user_name">Name:</label>
