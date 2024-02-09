@@ -1,5 +1,5 @@
 <?php
-include '../config.php';
+include "../../config.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $adId = $_POST['ad_id'];
@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $adGender = $_POST['ad_gender'];
 
     // ตรวจสอบว่ามีการอัปเดตข้อมูลในฐานข้อมูลหรือไม่
-    $stmt = $conn->prepare("UPDATE admin SET ad_name = ?, ad_lastname = ?, ad_email = ?, ad_password = ?, ad_gender = ? WHERE ad_id = ?");
+    $stmt = $conn->prepare("UPDATE admin_table SET ad_name = ?, ad_lastname = ?, ad_email = ?, ad_password = ?, ad_gender = ? WHERE ad_id = ?");
     $stmt->bind_param("sssssi", $adName, $adLastname, $adEmail, $adPassword, $adGender, $adId);
 
     if ($stmt->execute()) {

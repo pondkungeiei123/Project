@@ -2,8 +2,21 @@
 
 ob_start();
 ?>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<h2> รายชื่อพนักงาน</h2> 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+                        เพิ่มข้อมูล
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
 <!-- Your page-specific content -->
-<h2> รายชื่อพนักงาน</h2> <!-- Add a title here -->
+
+<!-- Add a title here -->
 <div class="container">
     <div class="row">
         <div class="col-md-12"> <br>
@@ -22,7 +35,7 @@ ob_start();
                     <!-- ตรงนี้คือข้อมูลที่ถูกดึงมาแสดงในตาราง -->
                     <?php
                     require_once '../config.php';
-                    $stmt = $conn->prepare("SELECT * FROM admin");
+                    $stmt = $conn->prepare("SELECT * FROM admin_table");
                     $stmt->execute();
                     $resultSet = $stmt->get_result();
                     $data = $resultSet->fetch_all(MYSQLI_ASSOC);
@@ -59,11 +72,11 @@ ob_start();
                 <div class="modal-body">
                     <form id="addUserForm" method="POST">
                         <div class="form-group">
-                            <label for="ad_name">Name:</label>
+                            <label for="ad_name">ชื่อ:</label>
                             <input type="text" class="form-control" name="ad_name" required>
                         </div>
                         <div class="form-group">
-                            <label for="ad_lastname">Lastname:</label>
+                            <label for="ad_lastname">นามสกุล:</label>
                             <input type="text" class="form-control" name="ad_lastname" required>
                         </div>
                         <div class="form-group">
@@ -74,15 +87,15 @@ ob_start();
                             <label for="ad_password">Password:</label>
                             <input type="password" class="form-control" name="ad_password" required>
                         </div>
-                        <div class="form-group">R
-                            <label for="ad_gender">Gender:</label>
+                        <div class="form-group">
+                            <label for="ad_gender">เพศ:</label>
                             <select class="form-control" name="ad_gender" required>
-                                <option value="male">Male</option>
-                                <option value="female">Female</option>
+                                <option value="male">ชาย</option>
+                                <option value="female">หญิง</option>
                             </select>
                         </div>
                         
-                        <button type="button" class="btn btn-primary" onclick="submitForm()">Add User</button>
+                        <button type="button" class="btn btn-primary" onclick="submitForm()">ส่งข้อมูล </button>
                     </form>
                 </div>
             </div>

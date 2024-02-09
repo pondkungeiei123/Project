@@ -22,7 +22,7 @@ ob_start();
                     <!-- ตรงนี้คือข้อมูลที่ถูกดึงมาแสดงในตาราง -->
                     <?php
                     require_once '../config.php';
-                    $stmt = $conn->prepare("SELECT * FROM customer");
+                    $stmt = $conn->prepare("SELECT * FROM customer_table");
                     $stmt->execute();
                     $resultSet = $stmt->get_result();
                     $data = $resultSet->fetch_all(MYSQLI_ASSOC);
@@ -59,11 +59,11 @@ ob_start();
             <div class="modal-body">
                 <form id="addUserForm" method="POST">
                     <div class="form-group">
-                        <label for="cus_name">Name:</label>
+                        <label for="cus_name">ชื่อ:</label>
                         <input type="text" class="form-control" name="cus_name" required>
                     </div>
                     <div class="form-group">
-                        <label for="cus_lastname">Lastname:</label>
+                        <label for="cus_lastname">นามสกุล:</label>
                         <input type="text" class="form-control" name="cus_lastname" required>
                     </div>
                     <div class="form-group">
@@ -71,28 +71,28 @@ ob_start();
                         <input type="email" class="form-control" name="cus_email" required>
                     </div>
                     <div class="form-group">
-                        <label for="hs_password">Password:</label>
+                        <label for="cus_password">Password:</label>
                         <input type="password" class="form-control" name="cus_password" required>
                     </div>
-                    <div class="form-group">
-                        <label for="cus_gender">Gender:</label>
+                    <!-- <div class="form-group">
+                        <label for="cus_gender">เพศ:</label>
                         <select class="form-control" name="cus_gender" required>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="male">ชาย</option>
+                            <option value="female">หญิง</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="cus_address">Address:</label>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label for="cus_address">ที่อยู่:</label>
                         <textarea class="form-control" name="cus_address" rows="3" required></textarea>
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                        <label for="cus_tel">Telephone:</label>
-                        <input type="tel" class="form-control" name="cus_tel" required>
+                        <label for="cus_phone">เบอร์โทรศัพท์:</label>
+                        <input type="tel" class="form-control" name="cus_phone" required>
                     </div>
-                    <div class="form-group">
-                        <label for="cus_age">Age:</label>
+                    <!-- <div class="form-group">
+                        <label for="cus_age">อายุ:</label>
                         <input type="number" class="form-control" name="cus_age" required>
-                    </div>
+                    </div> -->
                     <button type="button" class="btn btn-primary" onclick="submitForm()">Add User</button>
                 </form>
             </div>

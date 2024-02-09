@@ -21,7 +21,7 @@
             require_once '../config.php';
 
             // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
-            $stmt = $conn->prepare("SELECT * FROM admin WHERE ad_id = ?");
+            $stmt = $conn->prepare("SELECT * FROM admin_table WHERE ad_id = ?");
             $stmt->bind_param("i", $adId);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -33,11 +33,11 @@
                 <form action="../black_end/ad/updateProcess.php" method="POST">
                     <input type="hidden" name="ad_id" value="<?= $adData['ad_id']; ?>">
                     <div class="form-group">
-                        <label for="ad_name">Name:</label>
+                        <label for="ad_name">ชื่อ:</label>
                         <input type="text" class="form-control" name="ad_name" value="<?= $adData['ad_name']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="ad_lastname">Lastname:</label>
+                        <label for="ad_lastname">นามสกุล:</label>
                         <input type="text" class="form-control" name="ad_lastname" value="<?= $adData['ad_lastname']; ?>" required>
                     </div>
                     <div class="form-group">
@@ -49,13 +49,13 @@
                         <input type="password" class="form-control" name="ad_password" required>
                     </div>
                     <div class="form-group">
-                        <label for="ad_gender">Gender:</label>
+                        <label for="ad_gender">เพศ:</label>
                         <select class="form-control" name="ad_gender" required>
-                            <option value="male" <?= ($adData['ad_gender'] === 'male') ? 'selected' : ''; ?>>Male</option>
-                            <option value="female" <?= ($adData['ad_gender'] === 'female') ? 'selected' : ''; ?>>Female</option>
+                            <option value="male" <?= ($adData['ad_gender'] === 'male') ? 'selected' : ''; ?>>ชาย</option>
+                            <option value="female" <?= ($adData['ad_gender'] === 'female') ? 'selected' : ''; ?>>หญิง</option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    <button type="submit" class="btn btn-primary">ยืนยันการเเก้ไข</button>
                 </form>
         <?php
             } else {

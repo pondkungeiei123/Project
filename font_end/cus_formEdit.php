@@ -21,7 +21,7 @@
             require_once '../config.php';
 
             // ดึงข้อมูลผู้ใช้จากฐานข้อมูล
-            $stmt = $conn->prepare("SELECT * FROM customer WHERE cus_id = ?");
+            $stmt = $conn->prepare("SELECT * FROM customer_table WHERE cus_id = ?");
             $stmt->bind_param("i", $cusId);
             $stmt->execute();
             $result = $stmt->get_result();
@@ -33,11 +33,11 @@
                 <form action="../black_end/cus/updateProcess.php" method="POST">
                     <input type="hidden" name="cus_id" value="<?= $cusData['cus_id']; ?>">
                     <div class="form-group">
-                        <label for="cus_name">Name:</label>
+                        <label for="cus_name">ชื่อ:</label>
                         <input type="text" class="form-control" name="cus_name" value="<?= $cusData['cus_name']; ?>" required>
                     </div>
                     <div class="form-group">
-                        <label for="cus_lastname">Lastname:</label>
+                        <label for="cus_lastname">นามสกุล:</label>
                         <input type="text" class="form-control" name="cus_lastname" value="<?= $cusData['cus_lastname']; ?>" required>
                     </div>
                     <div class="form-group">
@@ -48,26 +48,26 @@
                         <label for="cus_password">Password:</label>
                         <input type="password" class="form-control" name="cus_password" required>
                     </div>
-                    <div class="form-group">
-                        <label for="cus_gender">Gender:</label>
+                    <!-- <div class="form-group">
+                        <label for="cus_gender">เพศ:</label>
                         <select class="form-control" name="cus_gender" required>
-                            <option value="male" <?= ($cusData['cus_gender'] === 'male') ? 'selected' : ''; ?>>Male</option>
-                            <option value="female" <?= ($cusData['cus_gender'] === 'female') ? 'selected' : ''; ?>>Female</option>
+                            <option value="male" <?= ($cusData['cus_gender'] === 'male') ? 'selected' : ''; ?>>ชาย</option>
+                            <option value="female" <?= ($cusData['cus_gender'] === 'female') ? 'selected' : ''; ?>>หญิง</option>
                         </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="cus_address">Address:</label>
+                    </div> -->
+                    <!-- <div class="form-group">
+                        <label for="cus_address">ที่อยู่:</label>
                         <textarea class="form-control" name="cus_address" rows="3" required><?= $cusData['cus_address']; ?></textarea>
-                    </div>
+                    </div> -->
                     <div class="form-group">
-                        <label for="cus_tel">Telephone:</label>
-                        <input type="tel" class="form-control" name="cus_tel" value="<?= $cusData['cus_tel']; ?>" required>
+                        <label for="cus_phone">เบอร์โทรศัพท์:</label>
+                        <input type="tel" class="form-control" name="cus_phone" value="<?= $cusData['cus_phone']; ?>" required>
                     </div>
-                    <div class="form-group">
-                        <label for="cus_age">Age:</label>
+                    <!-- <div class="form-group">
+                        <label for="cus_age">อายุ:</label>
                         <input type="number" class="form-control" name="cus_age" value="<?= $cusData['cus_age']; ?>" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div> -->
+                    <button type="submit" class="btn btn-primary">ยืนยันการเเก้ไข</button>
                 </form>
         <?php
             } else {

@@ -1,10 +1,6 @@
 <?php
 // connect.php
-
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "testdata2";
+include "../../config.php";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -26,20 +22,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // add additional fields as needed
 
     // Prepare and bind the SQL statement
-    $stmt = $conn->prepare("INSERT INTO admin (ad_name, ad_lastname, ad_email, ad_password, ad_gender) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO admin_table (ad_name, ad_lastname, ad_email, ad_password, ad_gender) VALUES (?, ?, ?, ?, ?)");
 
-    $stmt->bind_param("sssss", $ad_name, $ad_lastname, $ad_email, $ad_password, $ad_gender);
+    if ($stmt) {
+        $stmt->bind_param("sssss", $ad_name, $ad_lastname, $ad_email, $ad_password, $ad_gender);
 
-
-    // Execute the statement
-    if ($stmt->execute()) {
-        $response = array("success" => true);
+        // Execute the statement
+        if ($stmt->execute()) {
+            $response = array("success" => true);
+        } else {
+            $response = array("success" => false, "message" => $stmt->error);
+        }
+        
+        // Close statement
+        $stmt->close();
     } else {
-        $response = array("success" => false, "message" => $conn->error);
+        $response = array("success" => false, "message" => "Statement preparation failed");
     }
-    
-    // Close statement
-    $stmt->close();
 } else {
     $response = array("success" => false, "message" => "Invalid request method");
 }

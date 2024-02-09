@@ -1,11 +1,11 @@
 <?php
-require_once '../config.php';
+include "../../config.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $userId = $_POST['ad_id'];
     
     // ลบข้อมูลผู้ใช้
-    $stmt = $conn->prepare("DELETE FROM admin WHERE ad_id = ?");
+    $stmt = $conn->prepare("DELETE FROM admin_table WHERE ad_id = ?");
     $stmt->bind_param("i", $userId);
 
     if ($stmt->execute()) {

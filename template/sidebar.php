@@ -16,6 +16,16 @@
                     รายชื่อช่าง
                 </a>
             </li>
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="list_status.php">
+                    สถานะ
+                </a>
+            </li> -->
+            <!-- <li class="nav-item">
+                <a class="nav-link" href="list_profile.php">
+                    จัดการโปรไฟล์ช่าง
+                </a>
+            </li> -->
             <li class="nav-item">
                 <a class="nav-link" href="list_cus.php">
                     รายชื่อช่างลูกค้า
@@ -23,7 +33,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="list_cus.php">
-                    สรุป
+                    เงื่อนไขรายงาน
                 </a>
             </li>
         </ul>
