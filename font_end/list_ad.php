@@ -2,7 +2,8 @@
 
 ob_start();
 ?>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<br>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fe9f6005">
 <h2> รายชื่อพนักงาน</h2> 
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
@@ -48,7 +49,7 @@ ob_start();
                             <td><?= $k['ad_name']; ?></td>
                             <td><?= $k['ad_lastname']; ?></td>
                             <td><a href="ad_formEdit.php?id=<?= $k['ad_id']; ?>" class="btn btn-warning btn-sm">แก้ไข</a></td>
-                            <td><button type="button" onclick="confirmDeletion('<?= $k['ad_id'] ?>')" class="btn btn-danger btn-sm">ลบ</ิ>
+                            <td><button type="button" onclick="confirmDeletion('<?= $k['ad_id'] ?>')" class="btn btn-danger btn-circle btn-sm">ลบ</>
                         </tr>
                     <?php
                     }
@@ -87,13 +88,7 @@ ob_start();
                             <label for="ad_password">Password:</label>
                             <input type="password" class="form-control" name="ad_password" required>
                         </div>
-                        <div class="form-group">
-                            <label for="ad_gender">เพศ:</label>
-                            <select class="form-control" name="ad_gender" required>
-                                <option value="male">ชาย</option>
-                                <option value="female">หญิง</option>
-                            </select>
-                        </div>
+
                         
                         <button type="button" class="btn btn-primary" onclick="submitForm()">ส่งข้อมูล </button>
                     </form>

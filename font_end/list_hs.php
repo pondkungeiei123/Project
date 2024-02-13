@@ -2,7 +2,19 @@
 ob_start();
 ?>
 <!-- Your page-specific content -->
-<h2> รายชื่อช่างตัดผม</h2> <!-- Add a title here -->
+<br>
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #fe9f6005">
+<h2> รายชื่อช่างตัดผม</h2> 
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModal">
+                        เพิ่มข้อมูล
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </nav>
 <div class="container">
     <div class="row">
         <div class="col-md-12"> <br>

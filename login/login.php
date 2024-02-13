@@ -1,59 +1,9 @@
 <?php
-// include config file
-include '../config.php';
 
-// ตรวจสอบการลงชื่อเข้าใช้งานและประมวลผลข้อมูลต่าง ๆ
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // ตรวจสอบการลงชื่อเข้าใช้งาน
-    $user_email = $_POST['email'];
-    $password = $_POST['password'];
-
-    // ค้นหาผู้ใช้ในฐานข้อมูล
-    $sql = "SELECT * FROM users WHERE user_email = '$user_email'";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // พบผู้ใช้
-        $row = $result->fetch_assoc();
-        
-        if ($row['status'] == 1) {
-            // User status is confirmed
-            if (password_verify($password, $row['user_password'])) {
-                // รหัสผ่านถูกต้อง
-                // ทำอย่างอื่นตามที่ต้องการ เช่น ตั้ง session, ส่งไปยังหน้าหลัก, etc.
-                session_start();
-                $_SESSION['user_email'] = $row['user_email'];
-                $_SESSION['user_password'] = $row['user_password'];
-                header('Location: index.php'); // ส่งไปยังหน้าหลัก
-                exit;
-            } else {
-                // รหัสผ่านไม่ถูกต้อง
-                displayError('รหัสผ่านไม่ถูกต้อง');
-            }
-        } else {
-            // User status is not confirmed
-            displayError('กรุณายืนยันสถานะก่อนใช้งาน');
-        }
-    } else {
-        // ไม่พบผู้ใช้
-        displayError('ไม่พบผู้ใช้');
-    }
-}
-
-function displayError($message) {
-    echo '<script>
-        Swal.fire({
-            icon: "error",
-            title: "' . $message . '",
-            text: "กรุณาตรวจสอบข้อมูลและลองอีกครั้ง"
-        }).then(function () {
-            window.location.href = "login.php";
-        });
-    </script>';
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -62,7 +12,8 @@ function displayError($message) {
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #d2b48c; /* Dark grayish-blue background color */
+            background-color: #FFEBCD;
+            /* Dark grayish-blue background color */
             margin: 0;
             display: flex;
             align-items: center;
@@ -71,7 +22,7 @@ function displayError($message) {
         }
 
         .login-container {
-            background-color: #fff;
+            background-color: #FF7F50;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -123,18 +74,20 @@ function displayError($message) {
             border: none;
             border-radius: 4px;
             width: 100%;
-            margin-top: 10px; /* เพิ่มขึ้นมาหน่อย */
+            margin-top: 10px;
+            /* เพิ่มขึ้นมาหน่อย */
         }
     </style>
 </head>
+
 <body>
-<? 
+    <?
 
 
-?>
+    ?>
     <div class="login-container">
         <h2>Login</h2>
-        <form class="login-form" action="" method="post">
+        <form class="login-form" action="./login_Processing.php" method="post">
             <div class="form-group">
                 <label for="email">email:</label>
                 <input type="text" id="email" name="email" required>
@@ -148,10 +101,9 @@ function displayError($message) {
             <div class="form-group">
                 <button type="submit">Login</button>
             </div>
-            
-            <a href="create_resume.php" class="resume-button">สร้าง Resume</a>
         </form>
     </div>
 
 </body>
+
 </html>

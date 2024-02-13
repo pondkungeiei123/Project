@@ -1,11 +1,16 @@
 <?php
-
+session_start();
+if($_SESSION['status_login'] != 'success'){
+    header('Location: ../login/login.php'); // ส่งไปยังหน้าหลัก
+    exit;
+}
 ob_start();
 ?>
 <!-- Your page-specific content -->
 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <br>
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
                     </div>

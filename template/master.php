@@ -18,6 +18,8 @@
             display: flex;
             min-height: 100vh;
             flex-direction: column;
+            background-color: #fe9f602e;
+            margin: 0;
         }
 
         main {
