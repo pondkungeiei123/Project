@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 09, 2024 at 02:24 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.0.25
+-- Generation Time: Feb 14, 2024 at 06:55 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,19 +32,37 @@ CREATE TABLE `admin_table` (
   `ad_name` varchar(50) DEFAULT NULL,
   `ad_lastname` varchar(50) DEFAULT NULL,
   `ad_email` varchar(100) DEFAULT NULL,
-  `ad_password` varchar(20) DEFAULT NULL,
-  `ad_gender` varchar(10) DEFAULT NULL
+  `ad_password` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `admin_table`
 --
 
-INSERT INTO `admin_table` (`ad_id`, `ad_name`, `ad_lastname`, `ad_email`, `ad_password`, `ad_gender`) VALUES
-(2, 'สมรัก', 'นาน้อย', 'kanatakungtot@gmail.com', 'kanatakung123@gmail.', 'male'),
-(3, 'pond', 'kub', 'pondkungtot@gmail.com', 'kanatakung123@gmail.', 'male'),
-(0, 'สมจิต', 'ไร้นา123', 'kanatakung123@gmail.com', '$2y$10$c.Issc9NLSm7q', 'female'),
-(0, '123', '123', 'kanatakungtot@gmail.com', '$2y$10$vVNrAbyzxcg/o', 'male');
+INSERT INTO `admin_table` (`ad_id`, `ad_name`, `ad_lastname`, `ad_email`, `ad_password`) VALUES
+(1, 'admin', 'admin', 'admin1234', '$2y$10$yeMyVmq/WLAWx'),
+(2, 'สมชาย', 'สองใจ', 'kanatakung123@gmail.com', '$2y$10$A3h1uPgCy9XSP');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_location`
+--
+
+CREATE TABLE `customer_location` (
+  `cus_locationid` int(11) NOT NULL,
+  `cus_id` int(11) NOT NULL,
+  `cus_namelocation` varchar(255) NOT NULL,
+  `cus_latitude` varchar(255) NOT NULL,
+  `cus_longtitude` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `customer_location`
+--
+
+INSERT INTO `customer_location` (`cus_locationid`, `cus_id`, `cus_namelocation`, `cus_latitude`, `cus_longtitude`) VALUES
+(1, 25, 'หอพักส.สงมา', '16.4247059', '102.8564783');
 
 -- --------------------------------------------------------
 
@@ -117,21 +135,27 @@ INSERT INTO `grouppicture` (`gro_id`, `up_picture`, `user_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `hairstyle`
+-- Table structure for table `hairstlye`
 --
 
-CREATE TABLE `hairstyle` (
-  `hair` varchar(50) NOT NULL,
-  `price` varchar(50) NOT NULL
+CREATE TABLE `hairstlye` (
+  `hair_id` int(11) NOT NULL,
+  `hair_name` varchar(50) NOT NULL,
+  `hair_price` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data for table `hairstyle`
+-- Dumping data for table `hairstlye`
 --
 
-INSERT INTO `hairstyle` (`hair`, `price`) VALUES
-('ทรงนักเรียน', '100'),
-('ทรงรองทรง', '120');
+INSERT INTO `hairstlye` (`hair_id`, `hair_name`, `hair_price`) VALUES
+(1, 'ทรงนักเรียน', '100'),
+(2, 'ทรงรองทรง', '120'),
+(3, 'ทรงทูบล็อค', '150'),
+(4, 'ทรงอันเดอร์คัต', '150'),
+(5, 'ทรงสกินเฮด', '150'),
+(6, 'ทรงวินเทจ', '150'),
+(7, 'ทรงอื่นๆ', '150');
 
 -- --------------------------------------------------------
 
@@ -167,6 +191,31 @@ INSERT INTO `jobqueue` (`job_id`, `user_id`, `job_startdate`, `job_enddate`, `jo
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `jobschedule`
+--
+
+CREATE TABLE `jobschedule` (
+  `jobsc_id` int(11) NOT NULL,
+  `jobsc_startdate` datetime NOT NULL,
+  `jobsc_enddate` datetime NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `job_id` int(11) NOT NULL,
+  `cus_id` int(11) NOT NULL,
+  `hair_id` int(11) NOT NULL,
+  `cus_locationid` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jobschedule`
+--
+
+INSERT INTO `jobschedule` (`jobsc_id`, `jobsc_startdate`, `jobsc_enddate`, `user_id`, `job_id`, `cus_id`, `hair_id`, `cus_locationid`) VALUES
+(4, '2023-12-31 12:00:00', '2023-12-31 14:00:00', 3, 25, 25, 3, 1),
+(5, '2023-12-24 16:26:01', '2023-12-24 23:26:01', 3, 25, 29, 1, 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user_table`
 --
 
@@ -184,21 +233,39 @@ CREATE TABLE `user_table` (
   `user_Certificate` varchar(255) DEFAULT NULL,
   `user_nationality` varchar(100) DEFAULT NULL,
   `user_religion` varchar(100) DEFAULT NULL,
-  `user_address` text NOT NULL
+  `user_address` text NOT NULL,
+  `namelocation` varchar(255) NOT NULL,
+  `user_latitude` varchar(255) NOT NULL,
+  `user_longtitude` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user_table`
 --
 
-INSERT INTO `user_table` (`user_id`, `user_name`, `user_lastname`, `user_phone`, `user_email`, `user_password`, `user_idcard`, `user_birthdate`, `user_age`, `user_gender`, `user_Certificate`, `user_nationality`, `user_religion`, `user_address`) VALUES
-(1, 'pond', 'sadfsdf', '0958027929', 'pond@gmail.com', '202cb962ac59075b964b07152d234b70', '', '0000-00-00', NULL, NULL, NULL, NULL, NULL, ''),
-(3, 'พิชิตชัย', 'ธรรมชัย', '0650949790', 'tiw@gmail.com', 'tiw@gmail.com', '1459900924562', '2013-12-12', 22, 'ชาย', NULL, 'ไทย', 'พุทธ', '231/2'),
-(10, 'นายศุภรักษ์', 'สะเดา', '0659977988', 'kanatakungtot@gmail.com', 'kanatakungtot@gmail.com', '1459900000000', '0000-00-00', 22, 'male', '2023-12-21/65840029186fb_IMG2023112.jpg', 'ไทย', 'พุทธ', 'kanatakungtot@gmail.com');
+INSERT INTO `user_table` (`user_id`, `user_name`, `user_lastname`, `user_phone`, `user_email`, `user_password`, `user_idcard`, `user_birthdate`, `user_age`, `user_gender`, `user_Certificate`, `user_nationality`, `user_religion`, `user_address`, `namelocation`, `user_latitude`, `user_longtitude`) VALUES
+(1, 'pond', 'sadfsdf', '0958027929', 'pond@gmail.com', '202cb962ac59075b964b07152d234b70', '1231231231231', '0000-00-00', 21, NULL, NULL, NULL, NULL, '', '', '', ''),
+(3, 'พิชิตชัย', 'ธรรมชัย', '0650949790', 'tiw@gmail.com', 'tiw@gmail.com', '1459900924562', '2013-12-12', 22, 'ชาย', NULL, 'ไทย', 'พุทธ', '231/2', '', '', ''),
+(10, 'นายศุภรักษ์', 'สะเดา', '0659977988', 'kanatakungtot@gmail.com', 'kanatakungtot@gmail.com', '1459900000000', '0000-00-00', 22, 'male', '2023-12-21/65840029186fb_IMG2023112.jpg', 'ไทย', 'พุทธ', 'kanatakungtot@gmail.com', '', '', ''),
+(12, 'มาลี', 'ขอน', '0659094979', 'lonkungtot@gmail.com', 'lonkungtot@gmail.com', '1459900924562', '2545-02-02', 22, 'male', '2024-02-13/65cb38b55ccfe_Data Flow .jpg', 'ไทย', 'พุทธ', 'lonkungtot@gmail.com', '', '', '');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin_table`
+--
+ALTER TABLE `admin_table`
+  ADD PRIMARY KEY (`ad_id`),
+  ADD UNIQUE KEY `ad_email` (`ad_email`);
+
+--
+-- Indexes for table `customer_location`
+--
+ALTER TABLE `customer_location`
+  ADD PRIMARY KEY (`cus_locationid`),
+  ADD KEY `cus_id` (`cus_id`);
 
 --
 -- Indexes for table `customer_table`
@@ -214,11 +281,28 @@ ALTER TABLE `grouppicture`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indexes for table `hairstlye`
+--
+ALTER TABLE `hairstlye`
+  ADD PRIMARY KEY (`hair_id`);
+
+--
 -- Indexes for table `jobqueue`
 --
 ALTER TABLE `jobqueue`
   ADD PRIMARY KEY (`job_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `jobschedule`
+--
+ALTER TABLE `jobschedule`
+  ADD PRIMARY KEY (`jobsc_id`),
+  ADD KEY `cus_id` (`cus_id`),
+  ADD KEY `jobschedule_ibfk_1` (`job_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `hair_id` (`hair_id`),
+  ADD KEY `cus_locationid` (`cus_locationid`);
 
 --
 -- Indexes for table `user_table`
@@ -231,6 +315,18 @@ ALTER TABLE `user_table`
 --
 
 --
+-- AUTO_INCREMENT for table `admin_table`
+--
+ALTER TABLE `admin_table`
+  MODIFY `ad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `customer_location`
+--
+ALTER TABLE `customer_location`
+  MODIFY `cus_locationid` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `customer_table`
 --
 ALTER TABLE `customer_table`
@@ -240,23 +336,35 @@ ALTER TABLE `customer_table`
 -- AUTO_INCREMENT for table `grouppicture`
 --
 ALTER TABLE `grouppicture`
-  MODIFY `gro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `gro_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `jobqueue`
 --
 ALTER TABLE `jobqueue`
-  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `job_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
+--
+-- AUTO_INCREMENT for table `jobschedule`
+--
+ALTER TABLE `jobschedule`
+  MODIFY `jobsc_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `user_table`
 --
 ALTER TABLE `user_table`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `customer_location`
+--
+ALTER TABLE `customer_location`
+  ADD CONSTRAINT `customer_location_ibfk_1` FOREIGN KEY (`cus_id`) REFERENCES `customer_table` (`cus_id`);
 
 --
 -- Constraints for table `grouppicture`
@@ -269,6 +377,12 @@ ALTER TABLE `grouppicture`
 --
 ALTER TABLE `jobqueue`
   ADD CONSTRAINT `jobqueue_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_table` (`user_id`);
+
+--
+-- Constraints for table `jobschedule`
+--
+ALTER TABLE `jobschedule`
+  ADD CONSTRAINT `jobschedule_ibfk_1` FOREIGN KEY (`cus_locationid`) REFERENCES `customer_location` (`cus_locationid`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
